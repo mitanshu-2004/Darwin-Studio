@@ -17,9 +17,9 @@ In most AI tools, an image is just a pixel file. In Darwin Studio, every image i
 * **Lineage:** Tracks the `generation` number and `parent_id` so you can see where an image came from.
 
 ### 2.2 The Engine (DarwinEngine)
-The engine handles the heavy calculations. I use the **RealVisXL_V4.0_Lightning** model.
+The engine handles the heavy calculations. I used the **RealVisXL_V4.0_Lightning** model.
 * **Why this model?** Standard models need 30-50 steps to make an image, which takes too long for real-time evolution. This model creates high-quality images in just 4 to 8 steps.
-* **The VAE Fix:** I use a specific component called `madebyollin/sdxl-vae-fp16-fix`. Standard components often crash or produce black squares when running in fast mode (Float16). This specific version fixes those math errors.
+* **The VAE Fix:** I used a specific component called `madebyollin/sdxl-vae-fp16-fix`. Standard components often crash or produce black squares when running in fast mode (Float16). This specific version fixes those math errors.
 
 ### 2.3 Memory Management (LaboratoryDatabase)
 A major technical limit on home computers is RAM (memory). If you keep 50 high-resolution images in memory, the program will crash.
