@@ -17,9 +17,9 @@ In most AI tools, an image is just a pixel file. In Darwin Studio, every image i
 * **Lineage:** Tracks the `generation` number and `parent_id` so you can see where an image came from.
 
 ### 2.2 The Engine (DarwinEngine)
-The engine handles the heavy calculations. We use the **RealVisXL_V4.0_Lightning** model.
+The engine handles the heavy calculations. I use the **RealVisXL_V4.0_Lightning** model.
 * **Why this model?** Standard models need 30-50 steps to make an image, which takes too long for real-time evolution. This model creates high-quality images in just 4 to 8 steps.
-* **The VAE Fix:** We use a specific component called `madebyollin/sdxl-vae-fp16-fix`. Standard components often crash or produce black squares when running in fast mode (Float16). This specific version fixes those math errors.
+* **The VAE Fix:** I use a specific component called `madebyollin/sdxl-vae-fp16-fix`. Standard components often crash or produce black squares when running in fast mode (Float16). This specific version fixes those math errors.
 
 ### 2.3 Memory Management (LaboratoryDatabase)
 A major technical limit on home computers is RAM (memory). If you keep 50 high-resolution images in memory, the program will crash.
@@ -65,17 +65,17 @@ The interface is built with **Gradio**, split into two main sections:
     * This is not just a gallery; it is a history log. It groups images by generation. You can click any image from the past to bring it back as a parent for new breeding.
 
 ## 5. Technical Challenges & Solutions
-During development, we faced specific hardware limits. Here is how the code solves them:
+During development, I faced specific hardware limits. Here is how the code solves them:
 
 * **The "OOM" (Out of Memory) Crash:**
     * **Cause:** Processing a full 1024x1024 image at once fills the GPU memory.
-    * **Code Fix:** We enabled `vae.enable_slicing()`. This cuts the image into strips, processes them one by one, and stitches them back together. It is slightly slower but prevents crashes.
+    * **Code Fix:** I enabled `vae.enable_slicing()`. This cuts the image into strips, processes them one by one, and stitches them back together. It is slightly slower but prevents crashes.
 * **The "Blurry Child" Issue:**
     * **Cause:** The VAE (the part that turns math into pixels) loses small details when compressing images.
-    * **Code Fix:** We implemented a "Crystal Pass." After the AI generates a draft, the code runs a second, very weak pass over the image to sharpen edges and textures before showing it to you.
+    * **Code Fix:** I implemented a "Crystal Pass." After the AI generates a draft, the code runs a second, very weak pass over the image to sharpen edges and textures before showing it to you.
 * **Selection Confusion:**
     * **Cause:** Users found it hard to pick two parents for breeding without losing track of which was which.
-    * **Code Fix:** We built a "State Machine" in the UI. When you click "Select Parent A," the app enters a specific mode where the next click *only* registers as Parent A. It then automatically exits that mode. This prevents accidental clicks.
+    * **Code Fix:** I built a "State Machine" in the UI. When you click "Select Parent A," the app enters a specific mode where the next click *only* registers as Parent A. It then automatically exits that mode. This prevents accidental clicks.
 
 ## 6. How to Run
 1.  **Environment:** This code is designed for a Google Colab environment with a T4 GPU.
